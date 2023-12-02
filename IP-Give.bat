@@ -33,17 +33,17 @@ if not exist IP_Addresses.txt (
 )
 
 :loop
-set /a octet1=%random% %% 256
-set /a octet2=%random% %% 256
-set /a octet3=%random% %% 256
-set /a octet4=%random% %% 256
+set /a octet1=!random! %% 256
+set /a octet2=!random! %% 256
+set /a octet3=!random! %% 256
+set /a octet4=!random! %% 256
 set ip=!octet1!.!octet2!.!octet3!.!octet4!
 
 rem Check if the IP address is already logged
 findstr /x "!ip!" IP_Addresses.txt > nul
 if errorlevel 1 (
     rem IP address not found in the log, proceed to check if it's reachable
-    ping -n 1 !ip! | find "TTL=" > nul
+    ping -n 1 -w 100 !ip! | find "TTL=" > nul
     if errorlevel 1 (
         rem IP is unreachable, do nothing
     ) else (
@@ -55,6 +55,7 @@ if errorlevel 1 (
 )
 
 goto loop
+
 
 
 
