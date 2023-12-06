@@ -185,7 +185,7 @@ goto MainLoop
 
 :GetMyIPs
 echo Getting IP addresses...
-timeout /nobreak /t 3 > nul
+timeout /nobreak /t 1 > nul
 
 echo.
 rem Get private IP address
