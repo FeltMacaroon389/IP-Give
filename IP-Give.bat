@@ -198,8 +198,8 @@ curl -s ipinfo.io/ip > temp_ip.txt
 set /p public_ip=<temp_ip.txt
 del temp_ip.txt
 
+echo Your Public IP address: %public_ip%
 echo Your Private IP address: %private_ip%
-echo Your Public IP address : %public_ip%
 
 echo.
 pause
