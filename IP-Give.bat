@@ -27,8 +27,9 @@ echo Do you want to retrieve your Public and Private IP Addresses, or do you wan
 echo.
 echo 1. View my IP Addresses
 echo 2. Start random IP giver
+echo 99. Exit
 echo.
-set /p Task=": "
+set /p Task=" "
 
 if /i "%Task%"=="1" (
     goto GetMyIPs
@@ -36,6 +37,10 @@ if /i "%Task%"=="1" (
 
 if /i "%Task%"=="2" (
     goto Random-IP-Giver
+)
+
+if /i "%Task%"=="99" (
+    goto 99Selected
 )
 
 if not defined Task (
@@ -49,9 +54,24 @@ goto Task
 
 :Random-IP-Giver
 echo Starting Random IP Giver...
-timeout /nobreak /t 3 > nul
+timeout /nobreak /t 1 > nul
 
+cls
+echo __/\\\\\\\\\\\__/\\\\\\\\\\\\\_____________________/\\\\\\\\\\\\____________________________________
+echo _\/////\\\///__\/\\\/////////\\\_________________/\\\//////////_____________________________________
+echo _____\/\\\_____\/\\\_______\/\\\________________/\\\______________/\\\______________________________
+echo _____\/\\\_____\/\\\\\\\\\\\\\/___/\\\\\\\\\\\_\/\\\____/\\\\\\\_\///___/\\\____/\\\_____/\\\\\\\\__
+echo _____\/\\\_____\/\\\/////////____\///////////__\/\\\___\/////\\\__/\\\_\//\\\__/\\\____/\\\/////\\\_ 
+echo _____\/\\\_____\/\\\___________________________\/\\\_______\/\\\_\/\\\__\//\\\/\\\____/\\\\\\\\\\\__ 
+echo _____\/\\\_____\/\\\___________________________\/\\\_______\/\\\_\/\\\___\//\\\\\____\//\\///////___ 
+echo __/\\\\\\\\\\\_\/\\\___________________________\//\\\\\\\\\\\\/__\/\\\____\//\\\______\//\\\\\\\\\\_ 
+echo _\///////////__\///_____________________________\////////////____\///______\///________\//////////__
+echo (Made by FeltMacaroon389)
 :UserInput
+echo.
+echo Random IP-Address giver
+
+echo.
 set /p saveToFile="Do you want to save IP addresses to a file? (Y/N): "
 if /i "%saveToFile%"=="N" (
     goto :SkipFilePrompts
@@ -61,6 +81,7 @@ if /i "%saveToFile%"=="N" (
     set /p customFileName="Enter the desired file name to save IP addresses to: "
     set "fileExt="
     if not defined customFileName (
+        echo.
         echo Invalid input. File name is required.
         goto Naming
     )
@@ -184,4 +205,10 @@ echo.
 pause
 cls
 goto start
+
+:99Selected
+
+echo Exiting...
+timeout /nobreak /t 1 > nul
+goto eof
 
