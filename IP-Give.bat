@@ -1,6 +1,7 @@
 @echo off
 setlocal enabledelayedexpansion
 
+:start
 echo __/\\\\\\\\\\\__/\\\\\\\\\\\\\_____________________/\\\\\\\\\\\\____________________________________
 echo _\/////\\\///__\/\\\/////////\\\_________________/\\\//////////_____________________________________
 echo _____\/\\\_____\/\\\_______\/\\\________________/\\\______________/\\\______________________________
@@ -21,13 +22,43 @@ if errorlevel 1 (
     goto :eof
 )
 
+echo Do you want to retrieve your Public and Private IP Addresses, or do you want to start the random IP giver?
+:Task
+echo.
+echo 1. View my IP Addresses
+echo 2. Start random IP giver
+echo.
+set /p Task=": "
+
+if /i "%Task%"=="1" (
+    goto GetMyIPs
+)
+
+if /i "%Task%"=="2" (
+    goto Random-IP-Giver
+)
+
+if not defined Task (
+    echo.
+    echo Please select a task.
+    goto Task
+)
+
+echo Please select a task.
+goto Task
+
+:Random-IP-Giver
+echo Starting Random IP Giver...
+timeout /nobreak /t 3 > nul
+
 :UserInput
 set /p saveToFile="Do you want to save IP addresses to a file? (Y/N): "
 if /i "%saveToFile%"=="N" (
     goto :SkipFilePrompts
 ) else if /i "%saveToFile%"=="Y" (
     :Naming
-    set /p customFileName="Enter the desired file name to save IP addresses: "
+    echo.
+    set /p customFileName="Enter the desired file name to save IP addresses to: "
     set "fileExt="
     if not defined customFileName (
         echo Invalid input. File name is required.
@@ -74,7 +105,9 @@ if not exist "!customFileName!" (
     echo Here you will see all logged IP addresses. > "!customFileName!"
     echo. >> "!customFileName!"
 )
-echo File will be saved as: !customFileName!
+echo.
+echo File will be saved as: !customFileName! Starting scanner...
+timeout /nobreak /t 3 > nul
 
 :SkipFilePrompts
 
@@ -127,4 +160,28 @@ if /i "%saveToFile%"=="Y" (
 )
 
 goto MainLoop
+
+
+:GetMyIPs
+echo Getting IP addresses...
+timeout /nobreak /t 3 > nul
+
+echo.
+rem Get private IP address
+for /f "tokens=2 delims=:" %%a in ('ipconfig ^| find "IPv4 Address"') do set private_ip=%%a
+
+set private_ip=%private_ip:~1%
+
+rem Get public IP address
+curl -s ipinfo.io/ip > temp_ip.txt
+set /p public_ip=<temp_ip.txt
+del temp_ip.txt
+
+echo Your Private IP address: %private_ip%
+echo Your Public IP address : %public_ip%
+
+echo.
+pause
+cls
+goto start
 
